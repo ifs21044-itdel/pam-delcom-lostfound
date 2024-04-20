@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tab_home"
+        android:title="Home"
+        android:icon="@drawable/ic_home" />
+    <item
+        android:id="@+id/tab_lostfound"
+        android:title="Lost and Found"
+        android:icon="@drawable/ic_lf" />
+</menu>
