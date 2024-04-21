@@ -7,20 +7,20 @@ import com.ifs21044.lostfoundappo.data.remote.response.DelcomResponse
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 
-class LostRepository private constructor(
+class LostFoundRepository private constructor(
     private val apiService: IApiService,
 ) {
-    fun postLostfound(
+    fun postLostFound(
         title: String,
         description: String,
-        status:String,
+        status: String
     ) = flow {
         emit(MyResult.Loading)
         try {
             //get success message
             emit(
                 MyResult.Success(
-                    apiService.postLostfound(title, description, status).data
+                    apiService.postLostFound(title, description, status).data
                 )
             )
         } catch (e: HttpException) {
@@ -35,24 +35,26 @@ class LostRepository private constructor(
             )
         }
     }
-    fun putLostfound(
-        lostFoundId: Int,
+
+
+    fun putLostFound(
+        lostandfoundId: Int,
         title: String,
         description: String,
         status: String,
-        isCompleted: Boolean,
+        is_completed: Boolean,
     ) = flow {
         emit(MyResult.Loading)
         try {
             //get success message
             emit(
                 MyResult.Success(
-                    apiService.putLostfound(
-                        lostFoundId,
+                    apiService.putLostFound(
+                        lostandfoundId,
                         title,
                         description,
                         status,
-                        if (isCompleted) 1 else 0
+                        if (is_completed) 1 else 0
                     )
                 )
             )
@@ -68,19 +70,20 @@ class LostRepository private constructor(
             )
         }
     }
-    fun getLostfounds(
+
+    fun getLostFounds(
         isCompleted: Int?,
-        userId: Int?,
-        status: String,
+        isMe: Int?,
+        status: String?,
     ) = flow {
         emit(MyResult.Loading)
         try {
             //get success message
             emit(
-                MyResult.Success(apiService.getLostfounds(
-                isCompleted,
-                userId,
-                status,)))
+                MyResult.Success(
+                    apiService.getLostFounds(isCompleted, isMe, status)
+                )
+            )
         } catch (e: HttpException) {
             //get error message
             val jsonInString = e.response()?.errorBody()?.string()
@@ -93,13 +96,18 @@ class LostRepository private constructor(
             )
         }
     }
-    fun getLostfound(
-        lostFoundId: Int,
+
+    fun getLostFound(
+        lostfoundId: Int,
     ) = flow {
         emit(MyResult.Loading)
         try {
             //get success message
-            emit(MyResult.Success(apiService.getLostfound(lostFoundId)))
+            emit(
+                MyResult.Success(
+                    apiService.getLostFound(lostfoundId)
+                )
+            )
         } catch (e: HttpException) {
             //get error message
             val jsonInString = e.response()?.errorBody()?.string()
@@ -112,13 +120,19 @@ class LostRepository private constructor(
             )
         }
     }
-    fun deleteLostfound(
-        lostFoundId: Int,
+
+
+    fun deleteLostFound(
+        lostfoundId: Int,
     ) = flow {
         emit(MyResult.Loading)
         try {
-//get success message
-            emit(MyResult.Success(apiService.deleteLostfound(lostFoundId)))
+            //get success message
+            emit(
+                MyResult.Success(
+                    apiService.deleteLostFound(lostfoundId)
+                )
+            )
         } catch (e: HttpException) {
             //get error message
             val jsonInString = e.response()?.errorBody()?.string()
@@ -131,18 +145,20 @@ class LostRepository private constructor(
             )
         }
     }
+
     companion object {
         @Volatile
-        private var INSTANCE: LostRepository? = null
+        private var INSTANCE: LostFoundRepository? = null
         fun getInstance(
             apiService: IApiService,
-        ): LostRepository {
-            synchronized(LostRepository::class.java) {
-                INSTANCE = LostRepository(
+        ): LostFoundRepository {
+            synchronized(LostFoundRepository::class.java) {
+                INSTANCE = LostFoundRepository(
                     apiService
                 )
             }
-            return INSTANCE as LostRepository
+            return INSTANCE as LostFoundRepository
         }
     }
 }
+

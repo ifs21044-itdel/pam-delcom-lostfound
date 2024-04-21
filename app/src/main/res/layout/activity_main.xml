@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".presentation.main.MainActivity">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarLayoutMain"
@@ -15,54 +14,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/appbarMain"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/primaryColor"
+            android:background="#153448"
             app:menu="@menu/main_menu"
             app:title="@string/app_name"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
-
     <SearchView
         android:id="@+id/svMain"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#467E7F"
         android:iconifiedByDefault="false"
         android:isScrollContainer="false"
         android:keepScreenOn="false"
         android:queryBackground="@null"
-        android:queryHint="Temukan lost and found..."
+        android:queryHint="Temukan barang..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbarLayoutMain"></SearchView>
+        app:layout_constraintTop_toBottomOf="@+id/appbarLayoutMain" >
+    </SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMainTodos"
+        android:id="@+id/rvMainLostFounds"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/wallempat"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/svMain"
-        tools:listitem="@layout/item_row_todo" />
-
+        tools:listitem="@layout/item_row_lostfound" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabMainAddTodo"
+        android:id="@+id/fabMainAddLostFound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="76dp"
-        app:backgroundTint="@color/primaryColor"
+        android:layout_marginBottom="16dp"
+        app:backgroundTint="#0188A4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_24"
         app:tint="@color/white"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
-
     <ProgressBar
         android:id="@+id/pbMain"
         style="?android:attr/progressBarStyle"
@@ -73,28 +70,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbarLayoutMain" />
-
     <TextView
         android:id="@+id/tvMainEmptyError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Belum terdapat data lost and found!"
+        android:text="Belum terdapat data barang temuan!"
         android:textColor="#E6180D"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbarLayoutMain" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="413dp"
-        android:layout_height="65dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/primaryColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/down_menu" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

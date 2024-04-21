@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/wallempat"
     tools:context=".presentation.login.LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/wallempat"
         android:paddingBottom="50dp">
 
@@ -31,13 +31,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:text="Mohon masuk dengan akun Anda"
+            android:text="Silahkan masuk menggunakan akun kamu!"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
-
 
         <EditText
             android:id="@+id/etLoginEmail"
@@ -51,7 +50,6 @@
             android:inputType="text|textEmailAddress"
             android:minHeight="48dp"
             android:padding="15dp"
-            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -68,7 +66,6 @@
             android:inputType="text|textPassword"
             android:minHeight="48dp"
             android:padding="15dp"
-            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,12 +73,11 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="382dp"
-            android:layout_height="245dp"
+            android:layout_width="178dp"
+            android:layout_height="176dp"
             android:layout_marginTop="32dp"
             android:src="@drawable/ic_logo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.488"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -104,7 +100,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:text="Password"
-            android:textColor="@color/white"
+            android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etLoginEmail" />
@@ -138,15 +134,12 @@
             android:id="@+id/tvLoginToRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="64dp"
             android:text="Belum memiliki akun? Daftar disini"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>

@@ -3,40 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/ic_logo"
-        android:label="@string/app_name"
+        android:label="Lost&amp;Found"
         android:roundIcon="@drawable/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.LostFoundApp"
-        tools:targetApi="31">
+        tools:targetApi="34">
         <activity
-            android:name=".presentation.lostandfound.LostfoundDetailActivity"
+            android:name=".presentation.lostfound.LostFoundFavoriteActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.lostandfound.LostfoundManageActivity"
+            android:name=".presentation.lostfound.LostFoundManageActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.lostandfound.LostfoundActivity"
-            android:exported="false" />
-        <activity
-            android:name=".presentation.main.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".presentation.todo.TodoManageActivity"
-            android:exported="false" />
-        <activity
-            android:name=".presentation.todo.TodoDetailActivity"
+            android:name=".presentation.lostfound.LostFoundDetailActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.profile.ProfileActivity"
@@ -47,6 +35,15 @@
         <activity
             android:name=".presentation.login.LoginActivity"
             android:exported="false" />
+        <activity
+            android:name=".presentation.main.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

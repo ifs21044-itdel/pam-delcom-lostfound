@@ -50,7 +50,6 @@
             android:inputType="text|textEmailAddress"
             android:minHeight="48dp"
             android:padding="15dp"
-            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -67,7 +66,6 @@
             android:inputType="text|textPassword"
             android:minHeight="48dp"
             android:padding="15dp"
-            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +83,6 @@
             android:inputType="text"
             android:minHeight="48dp"
             android:padding="15dp"
-            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -93,8 +90,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="382dp"
-            android:layout_height="134dp"
+            android:layout_width="344dp"
+            android:layout_height="141dp"
             android:layout_marginTop="32dp"
             android:src="@drawable/ic_logo"
             app:layout_constraintEnd_toEndOf="parent"
@@ -173,7 +170,6 @@
             app:layout_constraintEnd_toEndOf="@+id/btnRegister"
             app:layout_constraintStart_toStartOf="@+id/btnRegister"
             app:layout_constraintTop_toTopOf="@+id/btnRegister" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

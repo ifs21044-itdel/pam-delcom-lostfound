@@ -1,12 +1,9 @@
 package com.ifs21044.lostfoundapp.data.remote.retrofit
 
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomAddLostFoundResponse
-import com.ifs21044.lostfoundapp.data.remote.response.DelcomAddTodoResponse
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomLoginResponse
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomLostFoundResponse
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomLostFoundsResponse
-import com.ifs21044.lostfoundapp.data.remote.response.DelcomTodoResponse
-import com.ifs21044.lostfoundapp.data.remote.response.DelcomTodosResponse
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomUserResponse
 import com.ifs21044.lostfoundappo.data.remote.response.DelcomResponse
 import retrofit2.http.DELETE
@@ -26,68 +23,49 @@ interface IApiService {
         @Field("email") email: String,
         @Field("password") password: String
     ): DelcomResponse
+
     @FormUrlEncoded
     @POST("auth/login")
     suspend fun login(
         @Field("email") email: String,
         @Field("password") password: String
     ): DelcomLoginResponse
+
     @GET("users/me")
     suspend fun getMe(): DelcomUserResponse
-    @FormUrlEncoded
-    @POST("todos")
-    suspend fun postTodo(
-        @Field("title") title: String,
-        @Field("description") description: String,
-    ): DelcomAddTodoResponse
-    @FormUrlEncoded
-    @PUT("todos/{id}")
-    suspend fun putTodo(
-        @Path("id") todoId: Int,
-        @Field("title") title: String,
-        @Field("description") description: String,
-        @Field("is_finished") isFinished: Int,
-    ): DelcomResponse
-    @GET("todos")
-    suspend fun getTodos(
-        @Query("is_finished") isFinished: Int?,
-    ): DelcomTodosResponse
-    @GET("todos/{id}")
-    suspend fun getTodo(
-        @Path("id") todoId: Int,
-    ): DelcomTodoResponse
-    @DELETE("todos/{id}")
-    suspend fun deleteTodo(
-        @Path("id") todoId: Int,
-    ): DelcomResponse
+
     @FormUrlEncoded
     @POST("lost-founds")
-    suspend fun postLostfound(
+    suspend fun postLostFound(
         @Field("title") title: String,
         @Field("description") description: String,
-        @Field("status") status: String,
+        @Field("status") status: String
     ): DelcomAddLostFoundResponse
+
     @FormUrlEncoded
     @PUT("lost-founds/{id}")
-    suspend fun putLostfound(
-        @Path("id") lostFoundId: Int,
+    suspend fun putLostFound(
+        @Path("id") lostfoundId: Int,
         @Field("title") title: String,
         @Field("description") description: String,
         @Field("status") status: String,
         @Field("is_completed") isCompleted: Int,
     ): DelcomResponse
+
     @GET("lost-founds")
-    suspend fun getLostfounds(
+    suspend fun getLostFounds(
         @Query("is_completed") isCompleted: Int?,
-        @Query("is_me") userId: Int?,
-        @Query("status") status: String,
+        @Query("is_me") isMe: Int?,
+        @Query("status") status: String?,
     ): DelcomLostFoundsResponse
+
     @GET("lost-founds/{id}")
-    suspend fun getLostfound(
-        @Path("id") lostFoundId: Int,
+    suspend fun getLostFound(
+        @Path("id") lostfoundId: Int
     ): DelcomLostFoundResponse
+
     @DELETE("lost-founds/{id}")
-    suspend fun deleteLostfound(
-        @Path("id") lostFoundId: Int,
+    suspend fun deleteLostFound(
+        @Path("id") lostfoundId: Int
     ): DelcomResponse
 }

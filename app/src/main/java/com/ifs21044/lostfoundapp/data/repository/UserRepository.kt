@@ -7,9 +7,11 @@ import com.ifs21044.lostfoundappo.data.remote.response.DelcomResponse
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 
+
 class UserRepository private constructor(
     private val apiService: IApiService,
 ) {
+
     fun getMe() = flow {
         emit(MyResult.Loading)
         try {
@@ -27,6 +29,7 @@ class UserRepository private constructor(
             )
         }
     }
+
     companion object {
         @Volatile
         private var INSTANCE: UserRepository? = null

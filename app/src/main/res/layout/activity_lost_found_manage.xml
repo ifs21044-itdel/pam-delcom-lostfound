@@ -5,83 +5,117 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".presentation.todo.TodoManageActivity">
+    tools:context=".presentation.lostfound.LostFoundManageActivity">
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbarLayoutTodoManage"
+        android:id="@+id/appbarLayoutLostFoundManage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:visibility="visible">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/appbarLFManage"
+            android:id="@+id/appbarLostFoundManage"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/primaryColor"
+            android:background="#153448"
             app:navigationIcon="@drawable/ic_arrow_back_24"
             app:navigationIconTint="@color/white"
-            app:title="Tambah Lost and Found"
+            app:title="Tambah Barang Temuan"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/wallempat"
         tools:ignore="SpeakableTextPresentCheck">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
+            android:background="@drawable/wallempat"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:paddingBottom="50dp">
 
             <TextView
-                android:id="@+id/tvTodoManageLabelTitle"
+                android:id="@+id/tvLostFoundManageLabelTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:fontFamily="@font/poppins_regular"
                 android:text="Judul"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvTodoManageLabelDesc"
+                android:id="@+id/tvLostFoundManageLabelDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins_regular"
                 android:text="Deskripsi"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etLFTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/etLostFoundManageTitle" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Status"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/etLostFoundManageStatus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etLostFoundManageDesc" />
+
+            <Spinner
+                android:id="@+id/etLostFoundManageStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/status"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+            <ImageView
+                android:id="@+id/ivSelectedImage"
+                android:layout_width="wrap_content"
+                android:layout_height="200sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etLostFoundManageStatus"
+                tools:srcCompat="@drawable/lostfound" />
+
+            <Button
+                android:id="@+id/btnLostFoundImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Upload Gambar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivSelectedImage" />
 
             <EditText
-                android:id="@+id/etLFTitle"
+                android:id="@+id/etLostFoundManageTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="#467E7F"
-                android:elevation="10dp"
                 android:ems="10"
                 android:inputType="text"
-                android:padding="10dp"
+                android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTodoManageLabelTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvLostFoundManageLabelTitle"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <EditText
-                android:id="@+id/etLFDesc"
+                android:id="@+id/etLostFoundManageDesc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="#467E7F"
-                android:elevation="10dp"
                 android:ems="10"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
@@ -89,58 +123,32 @@
                 android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTodoManageLabelDesc"
+                app:layout_constraintTop_toBottomOf="@+id/tvLostFoundManageLabelDesc"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <Button
-                android:id="@+id/btnLFSave"
+                android:id="@+id/btnLostFoundManageSave"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="108dp"
-                android:fontFamily="@font/poppins_regular"
+                android:layout_marginTop="24dp"
                 android:text="Simpan"
                 android:textSize="14sp"
+                app:cornerRadius="2pt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etLFDesc" />
+                app:layout_constraintTop_toBottomOf="@+id/btnLostFoundImage" />
 
             <ProgressBar
-                android:id="@+id/pbLF"
+                android:id="@+id/pbLostFoundManage"
                 style="?android:attr/progressBarStyle"
-                android:layout_width="48dp"
-                android:layout_height="35dp"
-                android:indeterminateTint="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/btnLFSave"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/btnLFSave"
-                app:layout_constraintTop_toTopOf="@+id/btnLFSave" />
-
-            <TextView
-                android:id="@+id/tvStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins_regular"
-                android:text="Status (choose lost / found)"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etLFDesc" />
-
-            <EditText
-                android:id="@+id/etStatus"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="#467E7F"
-                android:elevation="10dp"
-                android:ems="10"
-                android:inputType="text"
-                android:padding="12dp"
+                android:indeterminateTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/btnLostFoundManageSave"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvStatus"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                app:layout_constraintStart_toStartOf="@+id/btnLostFoundManageSave"
+                app:layout_constraintTop_toTopOf="@+id/btnLostFoundManageSave" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
