@@ -17,7 +17,7 @@ data class DelcomLostFoundsResponse(
 data class LostFoundsItemResponse(
 
 	@field:SerializedName("cover")
-	val cover: String,
+	val cover: String?,
 
 	@field:SerializedName("updated_at")
 	val updatedAt: String,
@@ -47,6 +47,12 @@ data class LostFoundsItemResponse(
 	var status: String
 )
 
+data class DataLostFoundsResponse(
+
+	@field:SerializedName("lost_founds")
+	val lostFounds: List<LostFoundsItemResponse>
+)
+
 data class AuthorLostFoundsResponse(
 
 	@field:SerializedName("name")
@@ -54,10 +60,4 @@ data class AuthorLostFoundsResponse(
 
 	@field:SerializedName("photo")
 	val photo: Any
-)
-
-data class DataLostFoundsResponse(
-
-	@field:SerializedName("lost_founds")
-	val lostFounds: List<LostFoundsItemResponse>
 )

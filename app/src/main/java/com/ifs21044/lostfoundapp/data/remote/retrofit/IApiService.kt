@@ -4,14 +4,17 @@ import com.ifs21044.lostfoundapp.data.remote.response.DelcomAddLostFoundResponse
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomLoginResponse
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomLostFoundResponse
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomLostFoundsResponse
+import com.ifs21044.lostfoundapp.data.remote.response.DelcomResponse
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomUserResponse
-import com.ifs21044.lostfoundappo.data.remote.response.DelcomResponse
+import okhttp3.MultipartBody
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -68,4 +71,18 @@ interface IApiService {
     suspend fun deleteLostFound(
         @Path("id") lostfoundId: Int
     ): DelcomResponse
+
+    @Multipart
+    @POST("lost-founds/{id}/cover")
+    suspend fun addCoverLostFound(
+        @Path("id") lostfoundId: Int,
+        @Part cover: MultipartBody.Part,
+    ): DelcomResponse
+
+
+    @Multipart
+    @POST("users/photo")
+    suspend fun addPhotoProfile(
+        @Part photo :MultipartBody.Part,
+    ):DelcomResponse
 }

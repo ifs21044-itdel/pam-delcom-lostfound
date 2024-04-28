@@ -7,12 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.ifs21044.lostfoundapp.data.pref.UserModel
 import com.ifs21044.lostfoundapp.data.remote.MyResult
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomLostFoundsResponse
+import com.ifs21044.lostfoundapp.data.remote.response.DelcomResponse
 import com.ifs21044.lostfoundapp.data.repository.AuthRepository
 import com.ifs21044.lostfoundapp.data.repository.LostFoundRepository
 import com.ifs21044.lostfoundapp.presentation.ViewModelFactory
-import com.ifs21044.lostfoundappo.data.remote.response.DelcomResponse
 import kotlinx.coroutines.launch
-
 
 class MainViewModel(
     private val authRepository: AuthRepository,
@@ -29,23 +28,23 @@ class MainViewModel(
         }
     }
 
+    fun getLostFounds(): LiveData<MyResult<DelcomLostFoundsResponse>> {
+        return lostfoundRepository.getLostFounds(null, 0, null).asLiveData()
+    }
+
     fun getLostFound(): LiveData<MyResult<DelcomLostFoundsResponse>> {
         return lostfoundRepository.getLostFounds(null, 1, null).asLiveData()
     }
 
-    fun getLostFounds(): LiveData<MyResult<DelcomLostFoundsResponse>> {
-        return lostfoundRepository.getLostFounds(null,0,null).asLiveData()
-    }
-
     fun putLostFound(
-        lostandfoundId: Int,
+        lostfoundId: Int,
         title: String,
         description: String,
         status: String,
         isCompleted: Boolean,
     ): LiveData<MyResult<DelcomResponse>> {
         return lostfoundRepository.putLostFound(
-            lostandfoundId,
+            lostfoundId,
             title,
             description,
             status,
@@ -53,22 +52,22 @@ class MainViewModel(
         ).asLiveData()
     }
 
-
-
     companion object {
         @Volatile
         private var INSTANCE: MainViewModel? = null
+
         fun getInstance(
             authRepository: AuthRepository,
-            lostfoundRepository: LostFoundRepository
+            todoRepository: LostFoundRepository
         ): MainViewModel {
             synchronized(ViewModelFactory::class.java) {
                 INSTANCE = MainViewModel(
                     authRepository,
-                    lostfoundRepository
+                    todoRepository
                 )
             }
             return INSTANCE as MainViewModel
         }
     }
 }
+

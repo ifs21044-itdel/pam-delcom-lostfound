@@ -1,15 +1,16 @@
 package com.ifs21044.lostfoundapp.presentation.register
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.ifs21044.lostfoundapp.data.remote.MyResult
 import com.ifs21044.lostfoundapp.databinding.ActivityRegisterBinding
 import com.ifs21044.lostfoundapp.presentation.ViewModelFactory
 import com.ifs21044.lostfoundapp.presentation.login.LoginActivity
+import com.ifs21044.lostfoundapp.presentation.register.RegisterViewModel
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -26,13 +27,12 @@ class RegisterActivity : AppCompatActivity() {
         setupAction()
     }
 
-    private fun setupView(){
+    private fun setupView() {
         showLoading(false)
     }
 
-    private fun setupAction(){
+    private fun setupAction() {
         binding.apply {
-
             // Memberikan aksis jika text ke tampilan login dipilih
             tvRegisterToLogin.setOnClickListener {
                 openLoginActivity()
@@ -57,11 +57,10 @@ class RegisterActivity : AppCompatActivity() {
 
                 observeRegister(name, email, password)
             }
-
         }
     }
 
-    private fun observeRegister(name: String, email: String, password: String){
+    private fun observeRegister(name: String, email: String, password: String) {
         viewModel.register(
             name,
             email,
@@ -72,10 +71,8 @@ class RegisterActivity : AppCompatActivity() {
                     is MyResult.Loading -> {
                         showLoading(true)
                     }
-
                     is MyResult.Success -> {
                         showLoading(false)
-
                         AlertDialog.Builder(this).apply {
                             setTitle("Yeah!")
                             setMessage(result.data.message)
@@ -87,10 +84,8 @@ class RegisterActivity : AppCompatActivity() {
                             show()
                         }
                     }
-
                     is MyResult.Error -> {
                         showLoading(false)
-
                         AlertDialog.Builder(this).apply {
                             setTitle("Oh No!")
                             setMessage(result.error)
@@ -110,12 +105,11 @@ class RegisterActivity : AppCompatActivity() {
         binding.btnRegister.text = if (isLoading) "" else "Register"
     }
 
-    private fun openLoginActivity(){
+    private fun openLoginActivity() {
         val intent = Intent(applicationContext, LoginActivity::class.java)
         intent.flags =
             Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         finish()
     }
-
 }

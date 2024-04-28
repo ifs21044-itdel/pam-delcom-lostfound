@@ -11,21 +11,28 @@ import java.util.concurrent.Executors
 class LocalLostFoundRepository(context: Context) {
     private val mDelcomLostFoundDao: IDelcomLostFoundDao
     private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
+
     init {
         val db = DelcomLostFoundDatabase.getInstance(context)
         mDelcomLostFoundDao = db.delcomLostFoundDao()
     }
+
     fun getAllLostFounds(): LiveData<List<DelcomLostFoundEntity>?> = mDelcomLostFoundDao.getAllLostFounds()
-    fun get(lostfoundId: Int): LiveData<DelcomLostFoundEntity?> = mDelcomLostFoundDao.get(lostfoundId)
-    fun insert(lostfound: DelcomLostFoundEntity) {
-        executorService.execute { mDelcomLostFoundDao.insert(lostfound) }
+
+    fun get(todoId: Int): LiveData<DelcomLostFoundEntity?> = mDelcomLostFoundDao.get(todoId)
+
+    fun insert(todo: DelcomLostFoundEntity) {
+        executorService.execute { mDelcomLostFoundDao.insert(todo) }
     }
-    fun delete(lostfound: DelcomLostFoundEntity) {
-        executorService.execute { mDelcomLostFoundDao.delete(lostfound) }
+
+    fun delete(todo: DelcomLostFoundEntity) {
+        executorService.execute { mDelcomLostFoundDao.delete(todo) }
     }
+
     companion object {
         @Volatile
         private var INSTANCE: LocalLostFoundRepository? = null
+
         fun getInstance(
             context: Context
         ): LocalLostFoundRepository {

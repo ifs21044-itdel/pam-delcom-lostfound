@@ -8,14 +8,18 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ifs21044.lostfoundapp.data.local.entity.DelcomLostFoundEntity
 
+
 @Dao
 interface IDelcomLostFoundDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(delcomTodo: DelcomLostFoundEntity)
+    fun insert(delcomLostFound: DelcomLostFoundEntity)
+
     @Delete
     fun delete(delcomLostFound: DelcomLostFoundEntity)
+
     @Query("SELECT * FROM delcom_lostfounds WHERE id = :id LIMIT 1")
     fun get(id: Int): LiveData<DelcomLostFoundEntity?>
+
     @Query("SELECT * FROM delcom_lostfounds ORDER BY created_at DESC")
     fun getAllLostFounds(): LiveData<List<DelcomLostFoundEntity>?>
 }

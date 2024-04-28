@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.lostfound.LostFoundFavoriteActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarLayoutLostFoundFavorite"
         android:layout_width="match_parent"
@@ -19,16 +20,18 @@
             android:id="@+id/appbarLostFoundFavorite"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#153448"
+            android:background="@color/ungu"
             app:navigationIcon="@drawable/ic_arrow_back_24"
             app:navigationIconTint="@color/white"
-            app:title="LostFound Favorite"
+            app:title="LostFound Saved"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
+
     <SearchView
         android:id="@+id/svLostFoundFavorite"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:iconifiedByDefault="false"
         android:isScrollContainer="false"
         android:keepScreenOn="false"
@@ -36,14 +39,11 @@
         android:queryHint="Temukan LostFound..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbarLayoutLostFoundFavorite" >
-    </SearchView>
-
+        app:layout_constraintTop_toBottomOf="@+id/appbarLayoutLostFoundFavorite"></SearchView>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLostFoundFavoriteLostFounds"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/wallempat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -25,9 +25,9 @@ class Utils {
         fun entitiesToResponses(entities: List<DelcomLostFoundEntity>): List<LostFoundsItemResponse> {
             return entities.map {
                 LostFoundsItemResponse(
-                    cover = it.cover ?: "", // Jika cover bisa null, tambahkan handling null
+                    cover = it.cover ?: "",
                     updatedAt = it.updatedAt,
-                    userId = it.userId, // Sesuaikan dengan kebutuhan Anda, karena tidak ada field yang cocok di DelcomLostFoundEntity
+                    userId = it.userId,
                     author = AuthorLostFoundsResponse(
                         name = "Unknown",
                         photo = ""
@@ -41,6 +41,5 @@ class Utils {
                 )
             }
         }
-
     }
 }

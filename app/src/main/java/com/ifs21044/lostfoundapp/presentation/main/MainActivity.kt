@@ -9,13 +9,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.recreate
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ifs21044.lostfound.adapter.LostFoundsAdapter
 import com.ifs21044.lostfoundapp.R
-import com.ifs21044.lostfoundapp.adapter.LostFoundsAdapter
 import com.ifs21044.lostfoundapp.data.remote.MyResult
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomLostFoundsResponse
 import com.ifs21044.lostfoundapp.data.remote.response.LostFoundsItemResponse
@@ -29,26 +27,24 @@ import com.ifs21044.lostfoundapp.presentation.lostfound.LostFoundManageActivity
 import com.ifs21044.lostfoundapp.presentation.main.MainViewModel
 import com.ifs21044.lostfoundapp.presentation.profile.ProfileActivity
 
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
     }
-
     private val launcher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == LostFoundManageActivity.RESULT_CODE) {
+        if (result.resultCode == LostFoundManageActivity.RESULT_CODE || result.resultCode == LostFoundDetailActivity.RESULT_CODE) {
             recreate()
         }
-
-        if (result.resultCode == LostFoundDetailActivity.RESULT_CODE) {
+        if (result.resultCode == LostFoundDetailActivity.RESULT_CODE){
             result.data?.let {
                 val isChanged = it.getBooleanExtra(
                     LostFoundDetailActivity.KEY_IS_CHANGED,
                     false
                 )
-
                 if (isChanged) {
                     recreate()
                 }
@@ -60,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setupView()
         setupAction()
     }
@@ -84,42 +79,38 @@ class MainActivity : AppCompatActivity() {
                     openProfileActivity()
                     true
                 }
-
                 R.id.mainMenuLogout -> {
                     viewModel.logout()
                     openLoginActivity()
                     true
                 }
-
+                R.id.mainMenuFavoriteLostFounds -> {
+                    openFavoriteLostFoundActivity()
+                    true
+                }
                 R.id.mainMenuAllData -> {
-                    // Ketika menu "All Data" diklik, panggil fungsi getLostandFounds()
+                    // Ketika menu "All Data" diklik, panggil fungsi getLostFounds()
                     observeGetLostFounds()
                     true
                 }
                 R.id.mainMenuMyData -> {
-                    // Ketika menu "My Data" diklik, panggil fungsi getLostandFound()
+                    // Ketika menu "My Data" diklik, panggil fungsi getLostFound()
                     observeGetMyLostFounds()
                     true
                 }
-
-                R.id.mainMenuFavoriteTodos -> {
-                    openFavoriteLostFoundActivity()
-                    true
-                }
-
                 else -> false
             }
         }
 
         binding.fabMainAddLostFound.setOnClickListener {
-            openAddLostFoundActivity()
+            openAddTodoActivity()
         }
 
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 openLoginActivity()
             } else {
-                observeGetLostFounds()
+//                observeGetLostFounds()
             }
         }
     }
@@ -131,32 +122,9 @@ class MainActivity : AppCompatActivity() {
                     is MyResult.Loading -> {
                         showLoading(true)
                     }
-
                     is MyResult.Success -> {
                         showLoading(false)
-                        loadLostFoundsToLayout(result.data)
-                    }
-
-                    is MyResult.Error -> {
-                        showLoading(false)
-                        showEmptyError(true)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun observeGetMyLostFounds() {
-        // Panggil fungsi getLostandFounds() dengan menyertakan nilai isMe
-        viewModel.getLostFound().observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    is MyResult.Loading -> {
-                        showLoading(true)
-                    }
-                    is MyResult.Success -> {
-                        showLoading(false)
-                        loadLostFoundsToLayout(result.data)
+                        loadTodosToLayout(result.data)
                     }
                     is MyResult.Error -> {
                         showLoading(false)
@@ -167,7 +135,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadLostFoundsToLayout(response: DelcomLostFoundsResponse) {
+    private fun loadTodosToLayout(response: DelcomLostFoundsResponse) {
+        // Periksa apakah response atau data pada response null
         if (response == null) {
             // Handle null case appropriately, misalnya menampilkan pesan error atau melakukan tindakan lainnya
             Log.e("MainActivity", "response == null")
@@ -176,87 +145,85 @@ class MainActivity : AppCompatActivity() {
             Log.e("MainActivity", "response.data == null")
             return
         } else if (response.data.lostFounds == null){
-            Log.e("MainActivity", "response.data.lostfounds == null")
+            Log.e("MainActivity", "response.data.todos == null")
             return
         }
 
-        val lostfounds = response.data.lostFounds
+        val todos = response.data.lostFounds
         val layoutManager = LinearLayoutManager(this)
-        binding.rvMainLostFounds.layoutManager = layoutManager
+        binding.rvMainTodos.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(
             this,
             layoutManager.orientation
         )
-        binding.rvMainLostFounds.addItemDecoration(itemDecoration)
+        binding.rvMainTodos.addItemDecoration(itemDecoration)
 
-        if (lostfounds.isEmpty()) {
+        if (todos.isEmpty()) {
             showEmptyError(true)
-            binding.rvMainLostFounds.adapter = null
+            binding.rvMainTodos.adapter = null
         } else {
             showComponentNotEmpty(true)
             showEmptyError(false)
 
             val adapter = LostFoundsAdapter()
-            adapter.submitOriginalList(lostfounds)
-            binding.rvMainLostFounds.adapter = adapter
+            adapter.submitOriginalList(todos)
+            binding.rvMainTodos.adapter = adapter
+
             adapter.setOnItemClickCallback(object : LostFoundsAdapter.OnItemClickCallback {
                 override fun onCheckedChangeListener(
                     lostfound: LostFoundsItemResponse,
-                    isCompleted: Boolean
+                    isChecked: Boolean
                 ) {
                     adapter.filter(binding.svMain.query.toString())
-
                     viewModel.putLostFound(
                         lostfound.id,
                         lostfound.title,
                         lostfound.description,
                         lostfound.status,
-                        isCompleted
+                        isChecked
                     ).observeOnce {
                         when (it) {
                             is MyResult.Error -> {
-                                if (isCompleted) {
+                                if (isChecked) {
                                     Toast.makeText(
                                         this@MainActivity,
-                                        "Gagal menyelesaikan lostfound: " + lostfound.title,
+                                        "Gagal menyelesaikan todo: " + lostfound.title,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } else {
                                     Toast.makeText(
                                         this@MainActivity,
-                                        "Gagal batal menyelesaikan lostfound: " + lostfound.title,
+                                        "Gagal batal menyelesaikan todo: " + lostfound.title,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
                             }
-
                             is MyResult.Success -> {
-                                if (isCompleted) {
+                                if (isChecked) {
                                     Toast.makeText(
                                         this@MainActivity,
-                                        "Berhasil menyelesaikan lostfound: " + lostfound.title,
+                                        "Berhasil menyelesaikan todo: " + lostfound.title,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } else {
                                     Toast.makeText(
                                         this@MainActivity,
-                                        "Berhasil batal menyelesaikan lostfound: " + lostfound.title,
+                                        "Berhasil batal menyelesaikan todo: " + lostfound.title,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
                             }
-
                             else -> {}
                         }
                     }
                 }
 
-                override fun onClickDetailListener(lostfoundId: Int) {
+                override fun onClickDetailListener(todoId: Int) {
                     val intent = Intent(
                         this@MainActivity,
                         LostFoundDetailActivity::class.java
                     )
-                    intent.putExtra(LostFoundDetailActivity.KEY_LOST_FOUND_ID, lostfoundId)
+                    intent.putExtra(LostFoundDetailActivity.KEY_TODO_ID, todoId)
                     launcher.launch(intent)
                 }
             })
@@ -269,12 +236,35 @@ class MainActivity : AppCompatActivity() {
 
                     override fun onQueryTextChange(newText: String): Boolean {
                         adapter.filter(newText)
-                        binding.rvMainLostFounds.layoutManager?.scrollToPosition(0)
+                        binding.rvMainTodos.layoutManager?.scrollToPosition(0)
                         return true
                     }
                 })
         }
     }
+
+    private fun observeGetMyLostFounds() {
+        // Panggil fungsi getLostFounds() dengan menyertakan nilai isMe
+        viewModel.getLostFound().observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is MyResult.Loading -> {
+                        showLoading(true)
+                    }
+                    is MyResult.Success -> {
+                        showLoading(false)
+                        loadTodosToLayout(result.data)
+                    }
+                    is MyResult.Error -> {
+                        showLoading(false)
+                        showEmptyError(true)
+                    }
+                }
+            }
+        }
+    }
+
+
 
     private fun showLoading(isLoading: Boolean) {
         binding.pbMain.visibility =
@@ -290,7 +280,7 @@ class MainActivity : AppCompatActivity() {
         binding.svMain.visibility =
             if (status) View.VISIBLE else View.GONE
 
-        binding.rvMainLostFounds.visibility =
+        binding.rvMainTodos.visibility =
             if (status) View.VISIBLE else View.GONE
     }
 
@@ -307,7 +297,7 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun openAddLostFoundActivity() {
+    private fun openAddTodoActivity() {
         val intent = Intent(
             this@MainActivity,
             LostFoundManageActivity::class.java

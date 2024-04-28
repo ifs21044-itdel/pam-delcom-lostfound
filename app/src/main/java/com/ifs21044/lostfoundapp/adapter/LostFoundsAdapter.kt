@@ -1,4 +1,4 @@
-package com.ifs21044.lostfoundapp.adapter
+package com.ifs21044.lostfound.adapter
 
 import android.graphics.Color
 import android.text.Spannable
@@ -29,7 +29,6 @@ class LostFoundsAdapter :
             parent,
             false
         )
-
         return MyViewHolder(binding)
     }
 
@@ -59,21 +58,19 @@ class LostFoundsAdapter :
             binding.apply {
                 tvItemLostFoundTitle.text = data.title
                 cbItemLostFoundIsFinished.isChecked = data.isCompleted == 1
-
-                val statusText = if (data.status.equals("found", ignoreCase = true)) {
-                    highlightText("Found", Color.GREEN)
-                } else {
-                    highlightText("Lost", Color.RED)
+                val status = if (data.status.equals("found", ignoreCase = true)) {
+                    highlight("Found", Color.BLUE)
+                }else {
+                    highlight("Lost", Color.RED)
                 }
-                // Menetapkan teks status yang sudah disorot ke TextView
-                tvLostFoundDetailStatus.text = statusText
+                tvItemLostFoundDesc.text = status
             }
         }
 
-        private fun highlightText(text: String, color: Int): SpannableString {
+        private fun highlight(text:String, color:Int): SpannableString {
             val spannableString = SpannableString(text)
             val foregroundColorSpan = ForegroundColorSpan(color)
-            spannableString.setSpan(foregroundColorSpan, 0, text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannableString.setSpan(foregroundColorSpan, 0, text.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             return spannableString
         }
     }
@@ -81,7 +78,6 @@ class LostFoundsAdapter :
     fun submitOriginalList(list: List<LostFoundsItemResponse>) {
         originalData = list.toMutableList()
         filteredData = list.toMutableList()
-
         submitList(originalData)
     }
 
@@ -93,7 +89,6 @@ class LostFoundsAdapter :
                 (it.title.contains(query, ignoreCase = true))
             }.toMutableList()
         }
-
         submitList(filteredData)
     }
 

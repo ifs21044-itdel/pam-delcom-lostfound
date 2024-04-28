@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/Base.Theme.LostFoundApp">
+
     <group android:menuCategory="container">
         <item
             android:id="@+id/mainMenuProfile"
-            android:title="Profile"
+
+            android:title="Akun"
             app:showAsAction="never" />
         <item
-            android:id="@+id/mainMenuLogout"
-            android:title="Logout"
+            android:id="@+id/mainMenuFavoriteLostFounds"
+            android:title="Fav LostFound"
             app:showAsAction="never" />
         <item
             android:id="@+id/mainMenuAllData"
-            android:title="All Data"
+            android:title="Semua Data"
             app:showAsAction="never" />
         <item
             android:id="@+id/mainMenuMyData"
-            android:title="My Data"
+            android:title="Data Pribadi"
             app:showAsAction="never" />
         <item
-            android:id="@+id/mainMenuFavoriteTodos"
-            android:title="Favorite LostFounds"
+            android:id="@+id/mainMenuLogout"
+            android:title="Keluar"
             app:showAsAction="never" />
     </group>
+
 </menu>

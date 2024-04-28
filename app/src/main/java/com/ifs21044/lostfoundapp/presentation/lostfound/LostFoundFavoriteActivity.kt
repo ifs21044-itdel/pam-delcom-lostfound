@@ -8,11 +8,13 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.finishAfterTransition
+import androidx.core.app.ActivityCompat.recreate
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ifs21044.lostfound.adapter.LostFoundsAdapter
 import com.ifs21044.lostfoundapp.R
-import com.ifs21044.lostfoundapp.adapter.LostFoundsAdapter
 import com.ifs21044.lostfoundapp.data.local.entity.DelcomLostFoundEntity
 import com.ifs21044.lostfoundapp.data.remote.MyResult
 import com.ifs21044.lostfoundapp.data.remote.response.LostFoundsItemResponse
@@ -20,6 +22,7 @@ import com.ifs21044.lostfoundapp.databinding.ActivityLostFoundFavoriteBinding
 import com.ifs21044.lostfoundapp.helper.Utils.Companion.entitiesToResponses
 import com.ifs21044.lostfoundapp.helper.Utils.Companion.observeOnce
 import com.ifs21044.lostfoundapp.presentation.ViewModelFactory
+import com.ifs21044.lostfoundapp.presentation.lostfound.LostFoundViewModel
 
 class LostFoundFavoriteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLostFoundFavoriteBinding
@@ -58,6 +61,7 @@ class LostFoundFavoriteActivity : AppCompatActivity() {
             finishAfterTransition()
         }
     }
+
     private fun setupView() {
         showComponentNotEmpty(false)
         showEmptyError(false)
@@ -67,11 +71,13 @@ class LostFoundFavoriteActivity : AppCompatActivity() {
                 .getDrawable(this, R.drawable.ic_more_vert_24)
         observeGetLostFounds()
     }
+
     private fun observeGetLostFounds() {
         viewModel.getLocalLostFounds().observe(this) { lostfounds ->
             loadLostFoundsToLayout(lostfounds)
         }
     }
+
     private fun loadLostFoundsToLayout(lostfounds: List<DelcomLostFoundEntity>?) {
         showLoading(false)
         val layoutManager = LinearLayoutManager(this)
@@ -132,6 +138,7 @@ class LostFoundFavoriteActivity : AppCompatActivity() {
                                         ).show()
                                     }
                                 }
+
                                 is MyResult.Success -> {
                                     if (isChecked) {
                                         Toast.makeText(
@@ -148,16 +155,18 @@ class LostFoundFavoriteActivity : AppCompatActivity() {
                                     }
                                     viewModel.insertLocalLostFound(newLostFound)
                                 }
+
                                 else -> {}
                             }
                         }
                     }
+
                     override fun onClickDetailListener(lostfoundId: Int) {
                         val intent = Intent(
                             this@LostFoundFavoriteActivity,
                             LostFoundDetailActivity::class.java
                         )
-                        intent.putExtra(LostFoundDetailActivity.KEY_LOST_FOUND_ID, lostfoundId)
+                        intent.putExtra(LostFoundDetailActivity.KEY_TODO_ID, lostfoundId)
                         launcher.launch(intent)
                     }
                 })
@@ -166,6 +175,7 @@ class LostFoundFavoriteActivity : AppCompatActivity() {
                     override fun onQueryTextSubmit(query: String): Boolean {
                         return false
                     }
+
                     override fun onQueryTextChange(newText: String): Boolean {
                         adapter.filter(newText)
                         binding.rvLostFoundFavoriteLostFounds
@@ -183,13 +193,15 @@ class LostFoundFavoriteActivity : AppCompatActivity() {
         binding.rvLostFoundFavoriteLostFounds.visibility =
             if (status) View.VISIBLE else View.GONE
     }
+
     private fun showEmptyError(isError: Boolean) {
         binding.tvLostFoundFavoriteEmptyError.visibility =
             if (isError) View.VISIBLE else View.GONE
     }
+
     private fun showLoading(isLoading: Boolean) {
         binding.pbLostFoundFavorite.visibility =
             if (isLoading) View.VISIBLE else View.GONE
     }
-
 }
+

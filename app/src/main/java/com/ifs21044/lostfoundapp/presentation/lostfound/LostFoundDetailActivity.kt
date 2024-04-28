@@ -12,6 +12,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.finishAfterTransition
+import androidx.core.app.ActivityCompat.recreate
+import com.bumptech.glide.Glide
 import com.ifs21044.lostfoundapp.R
 import com.ifs21044.lostfoundapp.data.local.entity.DelcomLostFoundEntity
 import com.ifs21044.lostfoundapp.data.model.DelcomLostFound
@@ -20,6 +23,9 @@ import com.ifs21044.lostfoundapp.data.remote.response.LostFoundResponse
 import com.ifs21044.lostfoundapp.databinding.ActivityLostFoundDetailBinding
 import com.ifs21044.lostfoundapp.helper.Utils.Companion.observeOnce
 import com.ifs21044.lostfoundapp.presentation.ViewModelFactory
+import com.ifs21044.lostfoundapp.presentation.lostfound.LostFoundManageActivity
+import com.ifs21044.lostfoundapp.presentation.lostfound.LostFoundViewModel
+
 
 class LostFoundDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLostFoundDetailBinding
@@ -53,17 +59,17 @@ class LostFoundDetailActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-        val lostfoundId = intent.getIntExtra(KEY_LOST_FOUND_ID, 0)
-        if (lostfoundId == 0) {
+        val lostFoundId = intent.getIntExtra(KEY_TODO_ID, 0)
+        if (lostFoundId == 0) {
             finish()
             return
         }
 
-        observeGetLostFound(lostfoundId)
+        observeGetLostFound(lostFoundId)
 
         binding.appbarLostFoundDetail.setNavigationOnClickListener {
             val resultIntent = Intent()
-            resultIntent.putExtra(KEY_IS_CHANGED, true)
+            resultIntent.putExtra(KEY_IS_CHANGED, isChanged)
             setResult(RESULT_CODE, resultIntent)
             finishAfterTransition()
         }
@@ -75,12 +81,10 @@ class LostFoundDetailActivity : AppCompatActivity() {
                 is MyResult.Loading -> {
                     showLoading(true)
                 }
-
                 is MyResult.Success -> {
                     showLoading(false)
-                    loadLostFound(result.data.data.lostfound)
+                    loadLostFound(result.data.data.lostFound)
                 }
-
                 is MyResult.Error -> {
                     Toast.makeText(
                         this@LostFoundDetailActivity,
@@ -94,7 +98,7 @@ class LostFoundDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadLostFound(lostfound: LostFoundResponse) {
+    private fun loadLostFound(lostfound: LostFoundResponse?) {
         if (lostfound != null) {
             showComponent(true)
 
@@ -102,7 +106,25 @@ class LostFoundDetailActivity : AppCompatActivity() {
                 tvLostFoundDetailTitle.text = lostfound.title
                 tvLostFoundDetailDate.text = "Dibuat pada: ${lostfound.createdAt}"
                 tvLostFoundDetailDesc.text = lostfound.description
-//            tvLostFoundDetailStatus.text = lostfound.status
+
+                val status = if (lostfound.status.equals("found", ignoreCase = true)) {
+                    highlight("Found", Color.BLUE)
+                } else {
+                    highlight("LOST", Color.RED)
+                }
+
+                tvLostFoundDetailStatus.text = status
+
+                if(lostfound.cover != null){
+                    ivTodoDetailCover.visibility = View.VISIBLE
+
+                    Glide.with(this@LostFoundDetailActivity)
+                        .load(lostfound.cover)
+                        .placeholder(R.drawable.ic_image_24)
+                        .into(ivTodoDetailCover)
+                }else{
+                    ivTodoDetailCover.visibility = View.GONE
+                }
 
                 viewModel.getLocalLostFound(lostfound.id).observeOnce {
                     if(it != null){
@@ -113,17 +135,43 @@ class LostFoundDetailActivity : AppCompatActivity() {
                     }
                 }
 
-                cbLostFoundDetailIsFinished.isChecked = lostfound.isCompleted == 1
+                ivLostFoundDetailActionFavorite.setOnClickListener {
+                    if(isFavorite){
+                        setFavorite(false)
+                        if(delcomLostFound != null){
+                            viewModel.deleteLocalLostFound(delcomLostFound!!)
+                        }
+                        Toast.makeText(
+                            this@LostFoundDetailActivity,
+                            "LostFound berhasil dihapus dari daftar favorite",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }else{
+                        delcomLostFound = DelcomLostFoundEntity(
+                            id = lostfound.id,
+                            title = lostfound.title,
+                            description = lostfound.description,
+                            isCompleted = lostfound.isCompleted,
+                            cover = lostfound.cover,
+                            createdAt = lostfound.createdAt,
+                            updatedAt = lostfound.updatedAt,
+                            status = "", // Anda perlu memberikan nilai default untuk status
+                            userId = 0 // Anda perlu memberikan nilai default untuk userId
+                        )
 
-                val statusText = if (lostfound.status.equals("found", ignoreCase = true)) {
-                    highlightText("Found", Color.GREEN)
-                } else {
-                    highlightText("Lost", Color.RED)
+                        setFavorite(true)
+                        viewModel.insertLocalLostFound(delcomLostFound!!)
+                        Toast.makeText(
+                            this@LostFoundDetailActivity,
+                            "LostFound berhasil ditambahkan ke daftar favorite",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-                // Menetapkan teks status yang sudah disorot ke TextView
-                tvLostFoundDetailStatus.text = statusText
 
-                cbLostFoundDetailIsFinished.setOnCheckedChangeListener { _, isChecked ->
+                cbLostFoundDetailIsCompleted.isChecked = lostfound.isCompleted == 1
+
+                cbLostFoundDetailIsCompleted.setOnCheckedChangeListener { _, isChecked ->
                     viewModel.putLostFound(
                         lostfound.id,
                         lostfound.title,
@@ -173,56 +221,32 @@ class LostFoundDetailActivity : AppCompatActivity() {
                     }
                 }
 
-                ivLostFoundDetailActionFavorite.setOnClickListener {
-                    if(isFavorite){
-                        setFavorite(false)
-                        if(delcomLostFound != null){
-                            viewModel.deleteLocalLostFound(delcomLostFound!!)
-                        }
-                        Toast.makeText(
-                            this@LostFoundDetailActivity,
-                            "LostFound berhasil dihapus dari daftar favorite",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }else{
-                        delcomLostFound = DelcomLostFoundEntity(
-                            id = lostfound.id,
-                            title = lostfound.title,
-                            description = lostfound.description,
-                            isCompleted = lostfound.isCompleted,
-                            cover = lostfound.cover,
-                            createdAt = lostfound.createdAt,
-                            updatedAt = lostfound.updatedAt,
-                            status = "", // Anda perlu memberikan nilai default untuk status
-                            userId = 0 // Anda perlu memberikan nilai default untuk userId
-                        )
-
-                        setFavorite(true)
-                        viewModel.insertLocalLostFound(delcomLostFound!!)
-                        Toast.makeText(
-                            this@LostFoundDetailActivity,
-                            "LostFound berhasil ditambahkan ke daftar favorite",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
                 ivLostFoundDetailActionDelete.setOnClickListener {
                     val builder = AlertDialog.Builder(this@LostFoundDetailActivity)
 
-                    builder.setTitle("Konfirmasi Hapus Barang")
-                        .setMessage("Anda yakin ingin menghapus barang ini?")
+                    // Menambahkan judul dan pesan pada dialog
+                    builder.setTitle("Konfirmasi Hapus data lost and found")
+                        .setMessage("Anda yakin ingin menghapus data lost and found ini?")
 
+                    // Menambahkan tombol "Ya" dengan warna hijau
                     builder.setPositiveButton("Ya") { _, _ ->
                         observeDeleteLostFound(lostfound.id)
                     }
 
+                    // Menambahkan tombol "Tidak" dengan warna merah
                     builder.setNegativeButton("Tidak") { dialog, _ ->
-                        dialog.dismiss()
+                        dialog.dismiss() // Menutup dialog
                     }
 
+                    // Membuat dan menampilkan dialog
                     val dialog = builder.create()
                     dialog.show()
+
+                    // Membuat kustomisasi warna teks pada tombol
+                    val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    positiveButton.setTextColor(resources.getColor(R.color.green))
+                    negativeButton.setTextColor(resources.getColor(R.color.red))
                 }
 
                 ivLostFoundDetailActionEdit.setOnClickListener {
@@ -240,11 +264,11 @@ class LostFoundDetailActivity : AppCompatActivity() {
                         LostFoundManageActivity::class.java
                     )
                     intent.putExtra(LostFoundManageActivity.KEY_IS_ADD, false)
-                    intent.putExtra(LostFoundManageActivity.KEY_LOSTFOUND, delcomLostFound)
+                    intent.putExtra(LostFoundManageActivity.KEY_TODO, delcomLostFound)
                     launcher.launch(intent)
                 }
             }
-        } else {
+        }else {
             Toast.makeText(
                 this@LostFoundDetailActivity,
                 "Tidak ditemukan item yang dicari",
@@ -253,59 +277,52 @@ class LostFoundDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setFavorite(status: Boolean){
-        isFavorite = status
-        if(status){
-            binding.ivLostFoundDetailActionFavorite
-                .setImageResource(R.drawable.ic_favorite_24)
-        }else{
-            binding.ivLostFoundDetailActionFavorite
-                .setImageResource(R.drawable.ic_favorite_border_24)
-        }
-    }
-
-    private fun highlightText(text: String, color: Int): SpannableString {
+    private fun highlight(text: String, color: Int): SpannableString {
         val spannableString = SpannableString(text)
         spannableString.setSpan(ForegroundColorSpan(color), 0, text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         return spannableString
     }
+
+    private fun setFavorite(status: Boolean){
+        isFavorite = status
+        if(status){
+            binding.ivLostFoundDetailActionFavorite
+                .setImageResource(R.drawable.iconlove)
+        }else{
+            binding.ivLostFoundDetailActionFavorite
+                .setImageResource(R.drawable.iconlove)
+        }
+    }
+
     private fun observeDeleteLostFound(lostfoundId: Int) {
         showComponent(false)
         showLoading(true)
-        viewModel.deleteLostFound(lostfoundId).observeOnce { result ->
-            result?.let {
-                when (it) {
-                    is MyResult.Error -> {
-                        showComponent(true)
-                        showLoading(false)
-                        Toast.makeText(
-                            this@LostFoundDetailActivity,
-                            "Gagal menghapus barang: ${it.error}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
 
-                    is MyResult.Success -> {
-                        showLoading(false)
-
-                        Toast.makeText(
-                            this@LostFoundDetailActivity,
-                            "Berhasil menghapus barang",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        viewModel.getLocalLostFound(lostfoundId).observeOnce {
-                            if(it != null){
-                                viewModel.deleteLocalLostFound(it)
-                            }
-                        }
-                        val resultIntent = Intent()
-                        resultIntent.putExtra(KEY_IS_CHANGED, true)
-                        setResult(RESULT_CODE, resultIntent)
-                        finishAfterTransition()
-                    }
-
-                    else -> {}
+        viewModel.deleteLostFound(lostfoundId).observeOnce {
+            when (it) {
+                is MyResult.Error -> {
+                    showComponent(true)
+                    showLoading(false)
+                    Toast.makeText(
+                        this@LostFoundDetailActivity,
+                        "Gagal menghapus data lost and found: ${it.error}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+                is MyResult.Success -> {
+                    showLoading(false)
+                    Toast.makeText(
+                        this@LostFoundDetailActivity,
+                        "Berhasil menghapus data lost and found",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    val resultIntent = Intent()
+                    resultIntent.putExtra(KEY_IS_CHANGED, true)
+                    setResult(RESULT_CODE, resultIntent)
+                    finishAfterTransition()
+                }
+                else -> {}
             }
         }
     }
@@ -321,7 +338,7 @@ class LostFoundDetailActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val KEY_LOST_FOUND_ID = "data_lost_found_id"
+        const val KEY_TODO_ID = "todo_id"
         const val KEY_IS_CHANGED = "is_changed"
         const val RESULT_CODE = 1001
     }

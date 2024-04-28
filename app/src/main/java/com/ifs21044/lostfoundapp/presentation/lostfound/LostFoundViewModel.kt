@@ -7,26 +7,27 @@ import com.ifs21044.lostfoundapp.data.local.entity.DelcomLostFoundEntity
 import com.ifs21044.lostfoundapp.data.remote.MyResult
 import com.ifs21044.lostfoundapp.data.remote.response.DataAddLostFoundResponse
 import com.ifs21044.lostfoundapp.data.remote.response.DelcomLostFoundResponse
+import com.ifs21044.lostfoundapp.data.remote.response.DelcomResponse
 import com.ifs21044.lostfoundapp.data.repository.LocalLostFoundRepository
 import com.ifs21044.lostfoundapp.data.repository.LostFoundRepository
 import com.ifs21044.lostfoundapp.presentation.ViewModelFactory
-import com.ifs21044.lostfoundappo.data.remote.response.DelcomResponse
+import okhttp3.MultipartBody
 
 class LostFoundViewModel(
-    private val lostfoundRepository: LostFoundRepository,
+    private val lostFoundRepository: LostFoundRepository,
     private val localLostFoundRepository: LocalLostFoundRepository
 ) : ViewModel() {
 
     fun getLostFound(lostfoundId: Int): LiveData<MyResult<DelcomLostFoundResponse>> {
-        return lostfoundRepository.getLostFound(lostfoundId).asLiveData()
+        return lostFoundRepository.getLostFound(lostfoundId).asLiveData()
     }
 
     fun postLostFound(
         title: String,
         description: String,
-        status: String
+        status : String,
     ): LiveData<MyResult<DataAddLostFoundResponse>> {
-        return lostfoundRepository.postLostFound(
+        return lostFoundRepository.postLostFound(
             title,
             description,
             status
@@ -40,7 +41,7 @@ class LostFoundViewModel(
         status: String,
         isCompleted: Boolean,
     ): LiveData<MyResult<DelcomResponse>> {
-        return lostfoundRepository.putLostFound(
+        return lostFoundRepository.putLostFound(
             lostfoundId,
             title,
             description,
@@ -49,8 +50,8 @@ class LostFoundViewModel(
         ).asLiveData()
     }
 
-    fun deleteLostFound(lostfoundId: Int): LiveData<MyResult<DelcomResponse>> {
-        return lostfoundRepository.deleteLostFound(lostfoundId).asLiveData()
+    fun deleteLostFound(todoId: Int): LiveData<MyResult<DelcomResponse>> {
+        return lostFoundRepository.deleteLostFound(todoId).asLiveData()
     }
 
     fun getLocalLostFounds(): LiveData<List<DelcomLostFoundEntity>?> {
@@ -67,9 +68,17 @@ class LostFoundViewModel(
         localLostFoundRepository.delete(lostfound)
     }
 
+    fun addCoverLostFound(
+        todoId: Int,
+        cover: MultipartBody.Part,
+    ): LiveData<MyResult<DelcomResponse>> {
+        return lostFoundRepository.addCoverLostFound(todoId, cover).asLiveData()
+    }
+
     companion object {
         @Volatile
         private var INSTANCE: LostFoundViewModel? = null
+
         fun getInstance(
             lostfoundRepository: LostFoundRepository,
             localLostFoundRepository: LocalLostFoundRepository,

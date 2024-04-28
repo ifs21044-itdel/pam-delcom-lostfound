@@ -1,11 +1,12 @@
 package com.ifs21044.lostfoundapp.presentation.profile
 
 import android.content.Intent
+import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.ifs21044.lostfoundapp.R
 import com.ifs21044.lostfoundapp.data.remote.MyResult
@@ -13,7 +14,7 @@ import com.ifs21044.lostfoundapp.data.remote.response.DataUserResponse
 import com.ifs21044.lostfoundapp.databinding.ActivityProfileBinding
 import com.ifs21044.lostfoundapp.presentation.ViewModelFactory
 import com.ifs21044.lostfoundapp.presentation.login.LoginActivity
-
+import com.ifs21044.lostfoundapp.presentation.profile.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
@@ -30,16 +31,20 @@ class ProfileActivity : AppCompatActivity() {
         setupAction()
     }
 
-    private fun setupView(){
+    private fun setupView() {
         showLoading(true)
         observeGetMe()
     }
 
-    private fun setupAction(){
+    private fun setupAction() {
         binding.apply {
             ivProfileBack.setOnClickListener {
                 finish()
             }
+            btnEditProfile.setOnClickListener {
+                startActivity(Intent(this@ProfileActivity, ProfileManageActivity::class.java))
+            }
+
         }
     }
 
@@ -48,19 +53,17 @@ class ProfileActivity : AppCompatActivity() {
         binding.llProfile.visibility = if (isLoading) View.GONE else View.VISIBLE
     }
 
-    private fun observeGetMe(){
-        viewModel.getMe().observe(this){ result ->
+    private fun observeGetMe() {
+        viewModel.getMe().observe(this) { result ->
             if (result != null) {
                 when (result) {
                     is MyResult.Loading -> {
                         showLoading(true)
                     }
-
                     is MyResult.Success -> {
                         showLoading(false)
                         loadProfileData(result.data)
                     }
-
                     is MyResult.Error -> {
                         showLoading(false)
                         Toast.makeText(
@@ -74,17 +77,15 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadProfileData(profile: DataUserResponse){
+    private fun loadProfileData(profile: DataUserResponse) {
         binding.apply {
-
-            if(profile.user.photo != null){
+            if (profile.user.photo != null) {
                 val urlImg = "https://public-api.delcom.org/${profile.user.photo}"
                 Glide.with(this@ProfileActivity)
                     .load(urlImg)
                     .placeholder(R.drawable.ic_person)
                     .into(ivProfile)
             }
-
             tvProfileName.text = profile.user.name
             tvProfileEmail.text = profile.user.email
         }

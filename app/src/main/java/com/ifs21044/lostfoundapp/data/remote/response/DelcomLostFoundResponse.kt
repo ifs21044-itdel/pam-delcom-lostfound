@@ -1,4 +1,5 @@
 package com.ifs21044.lostfoundapp.data.remote.response
+
 import com.google.gson.annotations.SerializedName
 
 data class DelcomLostFoundResponse(
@@ -11,6 +12,21 @@ data class DelcomLostFoundResponse(
 
 	@field:SerializedName("message")
 	val message: String
+)
+
+data class DataLostFoundResponse(
+
+	@field:SerializedName("lost_found")
+	val lostFound: LostFoundResponse
+)
+
+data class AuthorLostFoundResponse(
+
+	@field:SerializedName("name")
+	val name: String,
+
+	@field:SerializedName("photo")
+	val photo: String?,
 )
 
 data class LostFoundResponse(
@@ -44,19 +60,4 @@ data class LostFoundResponse(
 
 	@field:SerializedName("status")
 	val status: String
-)
-
-data class AuthorLostFoundResponse(
-
-	@field:SerializedName("name")
-	val name: String,
-
-	@field:SerializedName("photo")
-	val photo: Any
-)
-
-data class DataLostFoundResponse(
-
-	@field:SerializedName("lost_found")
-	val lostfound: LostFoundResponse
 )

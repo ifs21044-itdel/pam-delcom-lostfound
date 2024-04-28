@@ -6,13 +6,16 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ifs21044.lostfoundapp.data.local.entity.DelcomLostFoundEntity
 
+
 @Database(entities = [DelcomLostFoundEntity::class], version = 1, exportSchema = false)
 abstract class DelcomLostFoundDatabase : RoomDatabase() {
     abstract fun delcomLostFoundDao(): IDelcomLostFoundDao
+
     companion object {
         private const val Database_NAME = "DelcomLostFound.db"
         @Volatile
         private var INSTANCE: DelcomLostFoundDatabase? = null
+
         @JvmStatic
         fun getInstance(context: Context): DelcomLostFoundDatabase {
             if (INSTANCE == null) {

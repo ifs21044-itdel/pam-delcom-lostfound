@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.lostfound.LostFoundManageActivity">
+    tools:context=".presentation.lostfound.LostFoundDetailActivity">
+
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbarLayoutLostFoundManage"
+        android:id="@+id/appbarLayoutTodoManage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:visibility="visible">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/appbarLostFoundManage"
+            android:id="@+id/appbarTodoManage"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#153448"
+            android:background="@color/ungu"
             app:navigationIcon="@drawable/ic_arrow_back_24"
             app:navigationIconTint="@color/white"
-            app:title="Tambah Barang Temuan"
+            app:title="Tambah Lost and Found"
             app:titleTextColor="@color/white" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -32,41 +33,80 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/wallempat"
+            android:background="#ffbddd"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:paddingBottom="50dp">
 
             <TextView
                 android:id="@+id/tvLostFoundManageLabelTitle"
+                style="@style/TextBold.H6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="Judul"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.002"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvLostFoundManageLabelDesc"
+                style="@style/TextBold.H6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Deskripsi"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etLostFoundManageTitle" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tvLostFoundManageLabelStatus"
+                style="@style/TextBold.H6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginTop="16dp"
                 android:text="Status"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/etLostFoundManageStatus"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etLostFoundManageDesc" />
+
+            <EditText
+                android:id="@+id/etLostFoundManageTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_corner"
+                android:ems="10"
+                android:inputType="text"
+                android:padding="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLostFoundManageLabelTitle"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/etLostFoundManageDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_corner"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:minLines="5"
+                android:padding="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLostFoundManageLabelDesc"
+                tools:ignore="SpeakableTextPresentCheck" />
+
 
             <Spinner
                 android:id="@+id/etLostFoundManageStatus"
@@ -77,67 +117,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintTop_toBottomOf="@+id/tvLostFoundManageLabelStatus" />
 
-            <ImageView
-                android:id="@+id/ivSelectedImage"
-                android:layout_width="wrap_content"
-                android:layout_height="200sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etLostFoundManageStatus"
-                tools:srcCompat="@drawable/lostfound" />
-
-            <Button
-                android:id="@+id/btnLostFoundImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Upload Gambar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivSelectedImage" />
-
-            <EditText
-                android:id="@+id/etLostFoundManageTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="#467E7F"
-                android:ems="10"
-                android:inputType="text"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvLostFoundManageLabelTitle"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-            <EditText
-                android:id="@+id/etLostFoundManageDesc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="#467E7F"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:minLines="5"
-                android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvLostFoundManageLabelDesc"
-                tools:ignore="SpeakableTextPresentCheck" />
 
             <Button
                 android:id="@+id/btnLostFoundManageSave"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="56dp"
+                android:backgroundTint="@color/white"
                 android:text="Simpan"
+                android:textColor="@color/black"
                 android:textSize="14sp"
-                app:cornerRadius="2pt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnLostFoundImage" />
+                app:layout_constraintTop_toBottomOf="@+id/llTodoManageActionCover" />
 
             <ProgressBar
                 android:id="@+id/pbLostFoundManage"
@@ -149,6 +144,60 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/btnLostFoundManageSave"
                 app:layout_constraintTop_toTopOf="@+id/btnLostFoundManageSave" />
+
+
+            <ImageView
+                android:id="@+id/ivTodoManageCover"
+                android:layout_width="390dp"
+                android:layout_height="133dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_image_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLostFoundManageLabelImg" />
+
+            <LinearLayout
+                android:id="@+id/llTodoManageActionCover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivTodoManageCover">
+
+                <Button
+                    android:id="@+id/btnTodoManageCamera"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="@color/white"
+                    android:text="Camera"
+                    android:textColor="@color/black" />
+
+                <Button
+                    android:id="@+id/btnTodoManageGallery"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:backgroundTint="@color/white"
+                    android:text="Gallery"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvLostFoundManageLabelImg"
+                style="@style/TextBold.H6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:text="Detail Image"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLostFoundManageLabelStatus" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

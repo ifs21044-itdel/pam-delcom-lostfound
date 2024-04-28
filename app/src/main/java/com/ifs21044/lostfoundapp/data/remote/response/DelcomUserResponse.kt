@@ -14,12 +14,6 @@ data class DelcomUserResponse(
 	val message: String
 )
 
-data class DataUserResponse(
-
-	@field:SerializedName("user")
-	val user: UserResponse
-)
-
 data class UserResponse(
 
 	@field:SerializedName("updated_at")
@@ -42,4 +36,10 @@ data class UserResponse(
 
 	@field:SerializedName("email")
 	val email: String
+)
+
+data class DataUserResponse(
+
+	@field:SerializedName("user")
+	val user: UserResponse
 )

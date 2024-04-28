@@ -9,6 +9,6 @@ data class DelcomLostFound (
     val title: String,
     val description: String,
     val status: String,
-    val iscompleted: Boolean,
+    val isCompleted: Boolean,
     val cover: String?,
 ) : Parcelable
