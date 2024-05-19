@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.CheckBox
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,9 +28,11 @@ import com.ifs21044.lostfoundapp.presentation.lostfound.LostFoundManageActivity
 import com.ifs21044.lostfoundapp.presentation.main.MainViewModel
 import com.ifs21044.lostfoundapp.presentation.profile.ProfileActivity
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var lostCheckBox: CheckBox
+    private lateinit var foundCheckBox: CheckBox
+
     private val viewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
     }
@@ -56,11 +59,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        lostCheckBox = findViewById(R.id.lostCheckBox)
+        foundCheckBox = findViewById(R.id.foundCheckBox)
+
+
+        lostCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                foundCheckBox.isChecked = false
+            }
+        }
+        foundCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+
+                lostCheckBox.isChecked = false
+            }
+        }
         setupView()
         setupAction()
     }
 
     private fun setupView() {
+
+
         showComponentNotEmpty(false)
         showEmptyError(false)
         showLoading(true)
@@ -68,17 +88,17 @@ class MainActivity : AppCompatActivity() {
         binding.appbarMain.overflowIcon =
             ContextCompat
                 .getDrawable(this, R.drawable.ic_more_vert_24)
-
         observeGetLostFounds()
+    }
+
+    fun onProfileIconClicked(view: View) {
+        openProfileActivity()
     }
 
     private fun setupAction() {
         binding.appbarMain.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.mainMenuProfile -> {
-                    openProfileActivity()
-                    true
-                }
+
                 R.id.mainMenuLogout -> {
                     viewModel.logout()
                     openLoginActivity()
@@ -106,6 +126,7 @@ class MainActivity : AppCompatActivity() {
             openAddTodoActivity()
         }
 
+
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 openLoginActivity()
@@ -116,6 +137,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeGetLostFounds() {
+
         viewModel.getLostFounds().observe(this) { result ->
             if (result != null) {
                 when (result) {
@@ -157,6 +179,7 @@ class MainActivity : AppCompatActivity() {
             layoutManager.orientation
         )
         binding.rvMainTodos.addItemDecoration(itemDecoration)
+
 
         if (todos.isEmpty()) {
             showEmptyError(true)
@@ -313,4 +336,6 @@ class MainActivity : AppCompatActivity() {
         )
         launcher.launch(intent)
     }
+
+
 }

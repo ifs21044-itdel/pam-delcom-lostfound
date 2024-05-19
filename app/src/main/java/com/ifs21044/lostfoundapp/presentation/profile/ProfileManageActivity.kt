@@ -42,7 +42,6 @@ class ProfileManageActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.apply {
-            appbarLostandFoundManageProfile.title = "Edit Profile"
 
             btnLostandFoundProfileSave.setOnClickListener {
 

@@ -1,57 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="400dp"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="6dp">
+    android:layout_marginBottom="20dp"
+    android:background="@color/white">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/ivItemLostFoundDetail"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
-        android:background="#ffbddd">
+        android:background="@color/white">
 
-        <CheckBox
-            android:id="@+id/cbItemLostFoundIsFinished"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleX="1"
-            android:scaleY="1"
-            android:textColorHint="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp">
 
-        <TextView
-            android:id="@+id/tvItemLostFoundTitle"
-            style="@style/TextBold.H6"
-            android:layout_width="339dp"
-            android:layout_height="27dp"
-            android:layout_marginStart="12dp"
-            android:text="Judul Barang"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.238" />
+            <CheckBox
+                android:id="@+id/cbItemLostFoundIsFinished"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="65dp"
+                android:backgroundTint="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
+                app:buttonIconTint="@color/white" />
 
-        <TextView
-            android:id="@+id/tvItemLostFoundDesc"
-            style="@style/Text.P7"
-            android:layout_width="352dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="44dp"
-            android:text="Deskripsi barang"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/tvItemLostFoundTitle"
+                style="@style/TextBold.H6"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="70dp"
+                android:layout_toStartOf="@id/cbItemLostFoundIsFinished"
+                android:layout_toLeftOf="@id/cbItemLostFoundIsFinished"
+                android:text="Judul Barang"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
+            <TextView
+                android:id="@+id/tvItemLostFoundDesc"
+                style="@style/Text.P7"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@id/tvItemLostFoundTitle"
+                android:layout_alignStart="@id/tvItemLostFoundTitle"
+                android:layout_alignLeft="@id/tvItemLostFoundTitle"
+                android:layout_marginTop="-3dp"
+                android:text="Deskripsi barang"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/imageView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/iconbolalagi" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignTop="@id/tvItemLostFoundTitle"
+                android:layout_alignBottom="@id/tvItemLostFoundDesc"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center|end"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="-97dp"
+                android:layout_marginBottom="11dp"
+                android:layout_toStartOf="@id/cbItemLostFoundIsFinished"
+                android:layout_toLeftOf="@id/cbItemLostFoundIsFinished"
+                android:background="@drawable/bg_circle_radius"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

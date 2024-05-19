@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffbddd"
+    android:background="@drawable/bluebg"
     tools:context=".presentation.profile.ProfileManageActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -14,33 +14,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/appbarLostandFoundManageProfile"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/ungu"
-            app:navigationIcon="@drawable/ic_arrow_back_24"
-            app:navigationIconTint="@color/white"
-            app:title="Ubah Profil"
-            app:titleTextColor="@color/white"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="-1dp" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/ivProfileManage"
         android:layout_width="175dp"
         android:layout_height="175dp"
         android:layout_gravity="center"
-        android:layout_marginTop="140dp"
-        android:background="@color/white"
+        android:layout_marginTop="24dp"
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView8"
         app:srcCompat="@drawable/ic_person" />
 
     <Button
@@ -48,13 +33,12 @@
         android:layout_width="117dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/white"
         android:text="Camera"
         android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/btnLostandFoundProfileGallery"
-        app:layout_constraintHorizontal_bias="0.809"
+        app:layout_constraintHorizontal_bias="0.702"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfileManage" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
     <Button
         android:id="@+id/btnLostandFoundProfileSave"
@@ -91,7 +75,17 @@
         android:text="Gallery"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfileManage" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="336dp"
+        android:layout_height="218dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appbarLayoutTodoManage"
+        app:srcCompat="@drawable/border_line_dotted" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,11 +5,6 @@
 
     <group android:menuCategory="container">
         <item
-            android:id="@+id/mainMenuProfile"
-
-            android:title="Akun"
-            app:showAsAction="never" />
-        <item
             android:id="@+id/mainMenuFavoriteLostFounds"
             android:title="Fav LostFound"
             app:showAsAction="never" />

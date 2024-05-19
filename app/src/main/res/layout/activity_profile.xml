@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffbddd"
+    android:background="@drawable/bluebg"
     tools:context=".presentation.profile.ProfileActivity">
 
     <LinearLayout
@@ -24,7 +24,6 @@
             android:layout_height="175dp"
             android:layout_gravity="center"
             android:layout_marginTop="32dp"
-            android:background="@color/white"
             android:padding="15dp"
             app:srcCompat="@drawable/ic_person" />
 
@@ -33,22 +32,22 @@
             style="@style/TextBold.H6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:layout_gravity="center"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:text="Nama Pengguna"
+            android:textColor="@color/black"
             android:textSize="24sp" />
 
         <TextView
             android:id="@+id/tvProfileEmail"
             style="@style/Text.P7"
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="alamat email" />
+            android:text="alamat email"
+            android:textColor="@color/black" />
 
     </LinearLayout>
 
@@ -58,7 +57,6 @@
         style="@style/TextBold.H6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
         android:backgroundTint="@color/white"
         android:text="Edit Profile"
         android:textColor="@color/black"

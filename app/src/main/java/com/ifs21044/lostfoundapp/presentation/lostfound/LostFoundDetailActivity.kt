@@ -67,12 +67,6 @@ class LostFoundDetailActivity : AppCompatActivity() {
 
         observeGetLostFound(lostFoundId)
 
-        binding.appbarLostFoundDetail.setNavigationOnClickListener {
-            val resultIntent = Intent()
-            resultIntent.putExtra(KEY_IS_CHANGED, isChanged)
-            setResult(RESULT_CODE, resultIntent)
-            finishAfterTransition()
-        }
     }
 
     private fun observeGetLostFound(lostfoundId: Int) {

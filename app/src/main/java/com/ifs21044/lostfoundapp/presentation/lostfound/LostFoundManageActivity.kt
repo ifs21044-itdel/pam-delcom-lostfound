@@ -70,19 +70,21 @@ class LostFoundManageActivity : AppCompatActivity() {
             }
             manageEditLostFound(delcomTodo)
         }
-
-        binding.appbarTodoManage.setNavigationOnClickListener {
-            finishAfterTransition()
-        }
     }
 
     private fun manageAddLostFound() {
         binding.apply {
-            appbarTodoManage.title = "Tambah Todo"
+            btnTodoManageCamera.setOnClickListener {
+                startCamera()
+            }
+            btnTodoManageGallery.setOnClickListener {
+                startGallery()
+            }
             btnLostFoundManageSave.setOnClickListener {
                 val title = etLostFoundManageTitle.text.toString()
                 val description = etLostFoundManageDesc.text.toString()
                 val status = etLostFoundManageStatus.selectedItem.toString()
+
 
                 if (title.isEmpty() || description.isEmpty()) {
                     AlertDialog.Builder(this@LostFoundManageActivity).apply {
@@ -136,7 +138,6 @@ class LostFoundManageActivity : AppCompatActivity() {
 
     private fun manageEditLostFound(lostFound: DelcomLostFound) {
         binding.apply {
-            appbarTodoManage.title = "Ubah Barang"
 
             etLostFoundManageTitle.setText(lostFound.title)
             etLostFoundManageDesc.setText(lostFound.description)

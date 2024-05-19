@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".presentation.main.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -19,36 +20,76 @@
             android:id="@+id/appbarMain"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/ungu"
+            android:background="#2A364E"
+            android:onClick="onProfileIconClicked"
             app:menu="@menu/main_menu"
             app:title="@string/app_name"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <ImageView
+        android:id="@+id/fotoppp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="40dp"
+        android:padding="8dp"
+        android:src="@drawable/fotopp"
+        app:layout_constraintEnd_toEndOf="@+id/appbarLayoutMain"
+        app:layout_constraintTop_toTopOf="@+id/appbarLayoutMain" />
+
+
     <SearchView
         android:id="@+id/svMain"
         style="@style/Text.P7"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="403dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="8dp"
         android:background="@color/white"
         android:iconifiedByDefault="false"
         android:isScrollContainer="false"
         android:keepScreenOn="false"
         android:queryBackground="@null"
-        android:queryHint="Temukan todo..."
+        android:queryHint="Temukan barang hilang..."
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbarLayoutMain" />
 
+    <CheckBox
+        android:id="@+id/lostCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Lost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.043"
+        app:layout_constraintStart_toEndOf="@+id/foundCheckBox"
+        app:layout_constraintTop_toBottomOf="@+id/svMain" />
+
+
+    <CheckBox
+        android:id="@+id/foundCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Found"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/svMain" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMainTodos"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.58"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/svMain"
+        app:layout_constraintTop_toBottomOf="@+id/foundCheckBox"
+        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/item_row_lostfound" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -80,7 +121,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Belum terdapat data todo!"
+        android:text="Belum terdapat data lost found!"
         android:textColor="#E6180D"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

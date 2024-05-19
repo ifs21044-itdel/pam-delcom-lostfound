@@ -28,8 +28,11 @@ class MainViewModel(
         }
     }
 
-    fun getLostFounds(): LiveData<MyResult<DelcomLostFoundsResponse>> {
+    fun getLostFounds(filter: String = ""): LiveData<MyResult<DelcomLostFoundsResponse>> {
+        if (filter.isNotEmpty()) {
+        }
         return lostfoundRepository.getLostFounds(null, 0, null).asLiveData()
+
     }
 
     fun getLostFound(): LiveData<MyResult<DelcomLostFoundsResponse>> {
